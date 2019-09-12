@@ -2,9 +2,10 @@
 """
  Created by howie.hu at 2019-09-12.
 """
-
+import os
 import time
 
+from urllib.parse import quote_plus
 from lxml import etree
 
 from w2b.config import Config
@@ -32,7 +33,6 @@ def monitor_msg(cur):
             if int(doc_type) == 5:
                 doc_url = doc.cssselect("url")[0].text
                 parse_url(doc_url)
-                exit()
     latest_search_time = cur_time
 
 
@@ -48,6 +48,11 @@ def parse_url(url):
         main_article = etree.tostring(
             doc.cssselect("#js_content")[0], encoding="utf-8"
         ).decode(encoding="utf-8")
+
+        bear_cmd = f"bear://x-callback-url/create?title={quote_plus(title)}&text={quote_plus(resp.url)}"
+
+        cmd = f"open '{bear_cmd }'"
+        os.system(cmd)
 
     else:
         logger.error(f"抓取：{url} 失败")
