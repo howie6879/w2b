@@ -17,7 +17,7 @@ def gen_md5(string):
     return hl.hexdigest()
 
 
-def send_get_request(url, timeout=10, **kwargs) -> dict:
+def send_get_request(url, timeout=10, **kwargs):
     """
     发起GET请求
     """

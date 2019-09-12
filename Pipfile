@@ -7,7 +7,9 @@ verify_ssl = true
 
 [packages]
 pysqlcipher3 = "*"
-request = "*"
+requests = "*"
+lxml = "*"
+cssselect = "*"
 
 [requires]
 python_version = "3.6"
