@@ -36,7 +36,7 @@ pipenv install --python=/Users/howie6879/anaconda3/envs/python36/bin/python3.6  
 pipenv run python w2b/run.py
 ```
 
-首先请按照[利用微信同步文章到Bear]()提到的方式确定以下常量：
+首先请按照[利用微信同步文章到Bear](https://mp.weixin.qq.com/s/qRQO9xMvGTQL-ysolXJAxQ)提到的方式确定以下常量：
 
 -   S_ACCOUNT_ID：微信发送账户ID，可以在`Account/userinfo.data`下查看
 
