@@ -18,14 +18,14 @@ from w2b.sqlite_db import get_target_db_path, init_db
 from w2b.utils import logger
 from w2b.utils.tools import send_get_request
 
-latest_query_time = 1568334716
+latest_query_time = int(time.time())
 
 
 def monitor_msg(cur):
     global latest_query_time
     cur_time = int(time.time())
     query_sql = f"""select * from {Config.MSG_TABLE_NAME} where msgCreateTime>={latest_query_time} and msgCreateTime<{cur_time} order by msgCreateTime desc"""
-    logger.info(query_sql)
+    # logger.info(query_sql)
     res = cur.execute(query_sql)
     for i in res.fetchall():
         msg_type = i[6]
@@ -54,7 +54,8 @@ def parse_url(url):
             doc.cssselect("#js_content")[0], encoding="utf-8"
         ).decode(encoding="utf-8")
 
-        bear_cmd = f"bear://x-callback-url/create?title={quote_plus(title)}&text={quote_plus(resp.url)}&tags={quote_plus(Config.BEAR_TAG)}"
+        bear_cmd = f"bear://x-callback-url/create?title={quote_plus(title)}&text={quote_plus(resp.url)}&tags={quote_plus(Config.BEAR_TAG)}&open_note=no"
+        logger.info(f"文章 {title} 同步成功")
         cmd = f"open '{bear_cmd }'"
         os.system(cmd)
 
