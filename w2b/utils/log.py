@@ -14,6 +14,7 @@ def get_logger(name="w2b"):
     logging.basicConfig(
         format=logging_format, level=logging.INFO, datefmt="%Y:%m:%d %H:%M:%S"
     )
+    logging.getLogger("schedule").setLevel(logging.ERROR)
     return logging.getLogger(name)
 
 

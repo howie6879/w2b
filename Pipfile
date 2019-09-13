@@ -10,6 +10,7 @@ pysqlcipher3 = "*"
 requests = "*"
 lxml = "*"
 cssselect = "*"
+schedule = "*"
 
 [requires]
 python_version = "3.6"

@@ -21,7 +21,54 @@
     
 -   一台装有Bear的Mac OS
 
-### 实现
+### 使用
 
 ```shell
+git clone https://github.com/howie6879/w2b
+cd w2b
+# 推荐使用pipenv 你也可以使用自己中意的环境构建方式
+pipenv install --python=/Users/howie6879/anaconda3/envs/python36/bin/python3.6  --skip-lock
+# 运行前需要填好配置文件
+pipenv run python w2b/run.py
 ```
+
+首先请按照[利用微信同步文章到Bear]()提到的方式确定以下常量：
+
+-   S_ACCOUNT_ID：微信发送账户ID，可以在`Account/userinfo.data`下查看
+
+-   R_ACCOUNT_ID：微信接收账户ID，同上
+    
+-   RAW_KEY：解密Key，就是上面介绍的64位字符串
+    
+-   DB_PATH_TEM：定义的是消息DB路径，比如："/Users/howie6879/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/{0}/Message/"
+
+对应是 `w2b/config.py` 中的配置：
+
+```python
+import os
+
+from w2b.utils.tools import gen_md5
+
+
+class Config:
+    # 微信发送账户ID
+    S_ACCOUNT_ID = os.environ.get("S_ACCOUNT_ID", "")
+    # 微信接收账户ID
+    R_ACCOUNT_ID = os.environ.get("R_ACCOUNT_ID", "")
+    # 解密Key
+    RAW_KEY = os.environ.get("RAW_KEY", "")
+    # 消息DB路径
+    DB_PATH_TEM = "/Users/howie6879/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/{0}/Message/"
+    # 微信接收账户所有消息DB文件夹
+    MSG_DB_DIR = DB_PATH_TEM.format(gen_md5(R_ACCOUNT_ID))
+    # 与目标微信账户的聊天表
+    MSG_TABLE_NAME = f"Chat_{gen_md5(S_ACCOUNT_ID)}"
+    # 笔记Tag
+    BEAR_TAG = "资源/微信"
+    # 多久扫描一次，单位是S
+    INTERVAL = 10
+```
+
+### 最后
+
+欢迎提 `Issue`，希望可以帮到你~
