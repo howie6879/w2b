@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from w2b.config import Config
 from w2b.sqlite_db import get_target_db_path, init_db
 from w2b.utils import logger
-from w2b.utils.tools import send_get_request
+from w2b.utils.tools import send_get_request, wechat2md
 
 latest_query_time = int(time.time())
 
@@ -45,16 +45,16 @@ def parse_url(url):
     resp = send_get_request(url=url)
     if resp:
         doc = etree.HTML(resp.text)
-
         title = doc.cssselect("meta[property='og:title']")[0].get("content")
         description = doc.cssselect("meta[property='og:description']")[0].get("content")
-        image = doc.cssselect("meta[property='og:image']")[0].get("content")
+        # image = doc.cssselect("meta[property='og:image']")[0].get("content")
 
-        main_article = etree.tostring(
-            doc.cssselect("#js_content")[0], encoding="utf-8"
-        ).decode(encoding="utf-8")
+        # main_element = doc.cssselect("#js_content")[0]
+        # main_md = wechat2md(main_element)
 
-        bear_cmd = f"bear://x-callback-url/create?title={quote_plus(title)}&text={quote_plus(resp.url)}&tags={quote_plus(Config.BEAR_TAG)}&open_note=no"
+        bear_text = f"点击[原文地址]({resp.url})查看：{description}"
+
+        bear_cmd = f"bear://x-callback-url/create?title={quote_plus(title)}&text={quote_plus(bear_text)}&tags={quote_plus(Config.BEAR_TAG)}&open_note=no"
         logger.info(f"文章 {title} 同步成功")
         cmd = f"open '{bear_cmd }'"
         os.system(cmd)
