@@ -15,8 +15,13 @@ class Config:
     R_ACCOUNT_ID = os.environ.get("R_ACCOUNT_ID", "")
     # 解密Key
     RAW_KEY = os.environ.get("RAW_KEY", "")
+    # PC 用户名
+    PC_NAME = os.environ.get("PC_NAME", "")
     # 消息DB路径
-    DB_PATH_TEM = "/Users/howie6879/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/{0}/Message/"
+    DB_PATH_TEM = (
+        f"/Users/{PC_NAME}/"
+        + "Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/{0}/Message/"
+    )
     # 微信接收账户所有消息DB文件夹
     MSG_DB_DIR = DB_PATH_TEM.format(gen_md5(R_ACCOUNT_ID))
     # 与目标微信账户的聊天表
